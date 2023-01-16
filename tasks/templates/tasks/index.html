@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Tasks</title>
+</head>
+<body>
+    <ul>
+        <!-- Syntax {% %} for adding django logic to html -->
+        {% for task in tasks %} 
+        <!-- Double curly brackets for adding django functions to html -->
+         <li> {{ task}}  </li>
+         <!-- We have to tell django when our logic ends -->
+         {% endfor %}
+    </ul>
+</body>
+</html>

@@ -2,19 +2,23 @@ from django.shortcuts import render
 from django import forms
 from django.urls import reverse
 from django.http import HttpResponseRedirect
-# List of tasks to do
-tasks = ["foo", "bar", "Jeez"]
 # Create your views here.
 
-def index (request) :
-    # We add a context variable using a dictionary telling django 
-    # That we want to use the task list in the index.html 
-    return render (request, "tasks/index.html", { "tasks" : tasks
+def index(request):
+
+    # Check if there already exists a "tasks" key in our session
+
+    if "tasks" not in request.session:
+
+        # If not, create a new list
+        request.session["tasks"] = []
+
+    return render(request, "tasks/index.html", {
+        "tasks": request.session["tasks"]
     })
 
+# Add a new task:
 def add(request):
-
-    # Check if method is POST
     if request.method == "POST":
 
         # Take in the data the user submitted and save it as form
@@ -27,11 +31,10 @@ def add(request):
             task = form.cleaned_data["task"]
 
             # Add the new task to our list of tasks
-            tasks.append(task)
+            request.session["tasks"] += [task]
 
             # Redirect user to list of tasks
             return HttpResponseRedirect(reverse("tasks:index"))
-
         else:
 
             # If the form is invalid, re-render the page with existing information.
@@ -40,7 +43,7 @@ def add(request):
             })
 
     return render(request, "tasks/add.html", {
-        "form" : NewTaskForm()
+        "form": NewTaskForm()
     })
 
 class NewTaskForm (forms.Form):

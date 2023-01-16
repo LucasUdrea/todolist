@@ -1,16 +1,12 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <title>Tasks</title>
-</head>
-<body>
+{% extends "tasks/layout.html" %} 
+{% block body %}
     <ul>
-        <!-- Syntax {% %} for adding django logic to html -->
+        <!-- Curly brakcet Syntax  for adding non-Html logic to html -->
         {% for task in tasks %} 
-        <!-- Double curly brackets for adding django functions to html -->
+        <!-- Double curly brackets for adding non-Html logic to html-->
          <li> {{ task}}  </li>
          <!-- We have to tell django when our logic ends -->
          {% endfor %}
     </ul>
-</body>
-</html>
+    <a href="{% url 'tasks:add' %}">Add Task</a>
+    {% endblock %}
